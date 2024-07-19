@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+import { getGenres } from "../services/api-client";
 import genres from "../data/genres";
 
 export interface Genre {
@@ -5,7 +7,13 @@ export interface Genre {
   name: string;
   image_background: string;
 }
-
-const useGenres = () => ({ data: genres, isLoading: false, error: null })
+const aDayInMS = 60 * 60 * 24 * 1000;
+const useGenres = () =>
+  useQuery({
+    queryKey: ["genres"],
+    queryFn: getGenres,
+    staleTime: aDayInMS,
+    initialData: genres,
+  });
 
 export default useGenres;

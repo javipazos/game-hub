@@ -1,8 +1,18 @@
 import axios from "axios";
+import { Genre } from "../hooks/useGenres";
 
-export default axios.create({
+export const apiClient = axios.create({
   baseURL: "https://api.rawg.io/api",
   params: {
-    key: "c7b18323a47d40c394ea5b019646b1f5",
+    key: "71f7934ad2f44e2d8059b0f536c3538d",
   },
 });
+
+export const getGenres = async (): Promise<Genre[]> => {
+  const response = await apiClient.get<FetchResponse<Genre>>("/genres");
+  return response.data.results;
+};
+export interface FetchResponse<T> {
+  count: number;
+  results: T[];
+}
